@@ -1,0 +1,40 @@
+
+> edunova-lms-backend@1.0.0 demo
+> node scripts/api-demo.js
+
+==============================================================================
+EduNova LMS - First Release API demonstration
+Target : http://localhost:5000
+Started: 2026-10-31T02:24:39.325Z
+==============================================================================
+01. [PASS] GET /api/health -> 200 OK (52 ms)
+02. [PASS] POST /api/auth/register -> 409 Conflict (47 ms)
+03. [PASS] POST /api/auth/login -> 200 OK (85 ms)
+04. [PASS] POST /api/auth/login -> 200 OK (66 ms)
+05. [PASS] GET /api/auth/me -> 200 OK (7 ms)
+06. [PASS] GET /api/auth/me -> 401 Unauthorized (3 ms)
+07. [PASS] GET /api/courses/mine -> 200 OK (18 ms)
+08. [PASS] DELETE /api/courses/6ae55096489fefa05df00373 -> 200 OK (12 ms)
+09. [PASS] POST /api/courses -> 201 Created (14 ms)
+10. [PASS] POST /api/courses/6ae551676835037d33ed5809/lessons -> 201 Created (13 ms)
+11. [PASS] POST /api/courses/6ae551676835037d33ed5809/lessons -> 201 Created (10 ms)
+12. [PASS] GET /api/courses?category=Web%20Development&sort=newest -> 200 OK (10 ms)
+13. [PASS] GET /api/courses/6ae551676835037d33ed5809 -> 200 OK (9 ms)
+14. [PASS] PUT /api/courses/6ae551676835037d33ed5809 -> 200 OK (9 ms)
+15. [PASS] POST /api/courses -> 400 Bad Request (7 ms)
+16. [PASS] POST /api/courses -> 403 Forbidden (4 ms)
+17. [PASS] POST /api/enrollments -> 201 Created (15 ms)
+18. [PASS] POST /api/enrollments -> 409 Conflict (7 ms)
+19. [PASS] PUT /api/enrollments/6ae551676835037d33ed580d -> 200 OK (13 ms)
+20. [PASS] PUT /api/enrollments/6ae551676835037d33ed580d -> 403 Forbidden (5 ms)
+21. [PASS] PUT /api/enrollments/6ae551676835037d33ed580d -> 200 OK (10 ms)
+22. [PASS] GET /api/enrollments/me -> 200 OK (8 ms)
+23. [PASS] GET /api/courses/6ae551676835037d33ed5809/enrollments -> 200 OK (8 ms)
+24. [PASS] DELETE /api/courses/6ae551676835037d33ed5809/lessons/6ae551676835037d33ed580b -> 200 OK (7 ms)
+25. [PASS] DELETE /api/enrollments/6ae551676835037d33ed580d -> 200 OK (6 ms)
+26. [PASS] GET /api/courses/64b7f9f2f1f1f1f1f1f1f1f1 -> 404 Not Found (2 ms)
+==============================================================================
+Requests: 26   Passed: 26   Failed: 0
+Average latency: 17 ms
+==============================================================================
+Recorded 26 calls -> C:\Users\jackd\WorkBuddy\2026-10-30-22-10-19\docs\assets\api-demo.json

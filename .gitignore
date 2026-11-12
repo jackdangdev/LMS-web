@@ -1,0 +1,42 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# env / secrets
+.env
+.env.local
+.env.*.local
+lms-backend/.env
+
+# build output
+dist/
+build/
+lms-frontend/dist/
+video/out/
+video/tmp/
+
+# test artefacts
+coverage/
+.nyc_output/
+lms-frontend/cypress/screenshots/
+lms-frontend/cypress/videos/
+
+# logs
+*.log
+npm-debug.log*
+logs/
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# python
+__pycache__/
+*.pyc
+
+# misc
+*.zip
+*.rar

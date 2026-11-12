@@ -1,0 +1,84 @@
+
+> edunova-lms-backend@1.0.0 test
+> cross-env NODE_ENV=test mocha
+
+
+
+  0. Service health
+    [32m√[39m GET /api/health -> 200 with status UP
+    [32m√[39m GET /api -> 200 and documents the endpoint map
+    [32m√[39m GET /api/unknown-route -> 404 JSON envelope
+
+  1. Authentication - POST /api/auth/register
+    [32m√[39m creates a student account and returns a JWT (91ms)
+    [32m√[39m creates an instructor account (58ms)
+    [32m√[39m creates a second instructor (to prove ownership rules) (61ms)
+    [32m√[39m downgrades a self-declared admin role to student (privilege escalation guard) (62ms)
+    [32m√[39m rejects a duplicate email with 409
+    [32m√[39m rejects a short password with 400
+    [32m√[39m rejects an invalid email format with 400
+
+  2. Authentication - login and session
+    [32m√[39m POST /api/auth/login -> 200 for valid credentials (61ms)
+    [32m√[39m POST /api/auth/login -> 401 for a wrong password (58ms)
+    [32m√[39m GET /api/auth/me -> 200 with the token owner
+    [32m√[39m GET /api/auth/me -> 401 without a token
+    [32m√[39m GET /api/auth/me -> 401 with a tampered token
+    [32m√[39m PUT /api/auth/me -> 200 updates name and bio
+    [32m√[39m PUT /api/auth/password -> 401 when the current password is wrong (60ms)
+    [32m√[39m PUT /api/auth/password -> 200 and the new password works (170ms)
+
+  3. Courses - CRUD and ownership
+    [32m√[39m POST /api/courses -> 201 for an instructor
+    [32m√[39m POST /api/courses -> 403 for a student (authorization test)
+    [32m√[39m POST /api/courses -> 400 when the category is not in the enum
+    [32m√[39m POST /api/courses -> 409 for a duplicated course code
+    [32m√[39m GET /api/courses -> 200 with the published course in the catalogue
+    [32m√[39m GET /api/courses?search=node -> 200 (text filtering works)
+    [32m√[39m GET /api/courses?category=Design -> 200 empty result
+    [32m√[39m GET /api/courses/:id -> 200 with populated instructor
+    [32m√[39m GET /api/courses/:id -> 400 for a malformed id
+    [32m√[39m PUT /api/courses/:id -> 403 when another instructor edits the course
+    [32m√[39m PUT /api/courses/:id -> 200 when the owner edits it
+    [32m√[39m GET /api/courses/mine -> 200 lists only the caller courses
+    [32m√[39m unpublished courses are hidden from the public but visible to the owner
+
+  4. Lessons - nested CRUD
+    [32m√[39m POST lesson -> 201 with an auto-assigned order
+    [32m√[39m POST lesson -> 403 when another instructor tries to add one
+    [32m√[39m GET lessons -> 200 ordered list
+    [32m√[39m PUT lesson -> 200 updates title and duration
+    [32m√[39m GET lesson by id -> 200, and 404 under the wrong course
+    [32m√[39m course detail now embeds its lessons
+
+  5. Enrolments - student journey and grading
+    [32m√[39m POST /api/enrollments -> 201 for a student
+    [32m√[39m POST /api/enrollments -> 409 on a second enrolment in the same course
+    [32m√[39m POST /api/enrollments -> 403 for an instructor (students only)
+    [32m√[39m GET /api/enrollments/me -> 200 lists the enrolment
+    [32m√[39m PUT /api/enrollments/:id -> 200 progress 100 auto-completes the enrolment
+    [32m√[39m PUT /api/enrollments/:id -> 403 student tries to grade themselves
+    [32m√[39m PUT /api/enrollments/:id -> 400 for a lesson outside the course
+    [32m√[39m GET /api/courses/:courseId/enrollments -> 200 roster with summary
+    [32m√[39m GET roster -> 403 for another instructor
+    [32m√[39m PUT /api/enrollments/:id -> 200 instructor sets the grade
+    [32m√[39m GET /api/enrollments/:id -> 403 for an unrelated user
+    [32m√[39m course capacity is enforced (409 when full) (140ms)
+    [32m√[39m DELETE /api/enrollments/:id -> 200 student drops the course
+
+  6. Users - admin CRUD
+    [32m√[39m GET /api/users -> 403 for a non-admin
+    [32m√[39m GET /api/users -> 200 paginated list for an admin
+    [32m√[39m POST /api/users -> 201 admin creates an instructor (64ms)
+    [32m√[39m GET /api/users/:id -> 200
+    [32m√[39m PUT /api/users/:id -> 200 admin renames and deactivates the user
+    [32m√[39m PUT /api/users/:id -> 409 when the email collides
+    [32m√[39m DELETE /api/users/:id -> 409 when the instructor still owns a course
+    [32m√[39m DELETE /api/users/:id -> 200 for a user without courses
+
+  7. Course deletion cascades to lessons and enrolments
+    [32m√[39m DELETE /api/courses/:id -> 200 and cleans child documents
+
+
+  59 passing (1s)
+
