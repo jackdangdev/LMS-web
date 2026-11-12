@@ -7,6 +7,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    // bind IPv4 explicitly so Cypress (baseUrl 127.0.0.1) can always connect
+    host: '127.0.0.1',
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:5000',

@@ -54,6 +54,21 @@ Useful commands (run inside `lms-backend` unless noted):
 | `npm run build` (in `lms-frontend`) | Production build to `dist/` |
 | `node scripts/shots.cjs` (in `lms-frontend`) | Drives the UI with headless Chrome and screenshots every screen |
 
+## Testing & CI/CD
+
+| Suite | Stack | Command | Snapshot |
+| --- | --- | --- | --- |
+| API tests (59) | Mocha + Chai + Supertest | `npm test` (in `lms-backend`) | `docs/assets/screens/test-suite.png` |
+| UI unit tests (21) | Vitest + React Testing Library | `npm run test:ci` (in `lms-frontend`) | `docs/assets/screens/unit-tests.png` |
+| E2E (10) | Cypress | `npm run e2e` (in `lms-frontend`, API + web running) | `docs/assets/screens/cypress-run.png` + recordings in `docs/assets/video/cypress/` |
+
+CI/CD:
+
+- `.github/workflows/ci.yml` runs the API suite (Mongo service), the Vitest suite + production build, and the Cypress suite on every push/PR.
+- CI/CD demo evidence: `feature/cicd-demo` branch → merge to `master` → before/after screenshots `docs/assets/screens/cicd-before.png` / `cicd-after.png`; git history in `docs/assets/raw/cicd-git.txt`.
+
+Submission artefacts: `docs/EduNova-External-Design-Document-v3.pdf` (EDD v.3) and `docs/EduNova-Product-Backlog.pdf` (backlog + task board snapshot).
+
 Demo accounts (after seeding, password `Password123`): `admin@edunova.dev`, `lena@edunova.dev` / `kwame@edunova.dev` (instructors), `mia@student.dev` / `noah@student.dev` (students).
 
 ## What is implemented

@@ -1,0 +1,14 @@
+*   039b848 merge: CI/CD demo - publish second-release banner from feature branch
+|\  
+| * b880994 feat(catalogue): banner now shows the second release badge (CI/CD demo)
+|/  
+* e227aa4 chore: initial commit - EduNova LMS monorepo (API + React client + docs)
+commit 039b84831baa7e66d6a03a99c99b3f471678d845
+Merge: e227aa4 b880994
+Author: Xiaoxing Dang <xiaoxing.dang@edunova.dev>
+Date:   Wed Nov 11 23:54:24 2026 -0500
+
+    merge: CI/CD demo - publish second-release banner from feature branch
+
+ lms-frontend/src/pages/Catalogue.jsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
