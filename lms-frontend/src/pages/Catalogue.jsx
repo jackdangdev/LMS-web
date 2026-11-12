@@ -83,7 +83,7 @@ export default function Catalogue() {
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-700">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
-              First release · 2026 catalogue
+              Second release · CI/CD live update · 2026 catalogue
             </span>
             <h1 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-tight text-ink-900 sm:text-[44px]">
               {heroTitle}
