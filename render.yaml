@@ -1,0 +1,35 @@
+# Render Blueprint for EduNova LMS
+# Deploy: Render Dashboard -> New -> Blueprint -> select this repository.
+services:
+  - type: web
+    name: edunova-lms-api
+    runtime: node
+    rootDir: lms-backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      # Paste the same Atlas URI from lms-backend/.env when Render prompts.
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_ORIGIN
+        value: https://edunova-lms-web.onrender.com
+
+  - type: web
+    name: edunova-lms-web
+    runtime: static
+    rootDir: lms-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://edunova-lms-api.onrender.com/api
