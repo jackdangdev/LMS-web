@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CATEGORY_STYLES, LEVEL_STYLES } from '../lib/constants';
 import { currency } from '../lib/format';
+import { assetUrl } from '../lib/api';
 import { Avatar, Badge } from './ui';
 
 export const CourseCard = ({ course, footer }) => {
@@ -13,7 +14,7 @@ export const CourseCard = ({ course, footer }) => {
         <div className="relative h-32 overflow-hidden bg-gradient-to-br sm:h-36" style={!course.coverImageUrl ? undefined : { background: 'none' }}>
           {course.coverImageUrl ? (
             <img
-              src={course.coverImageUrl}
+              src={assetUrl(course.coverImageUrl)}
               alt=""
               className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
             />

@@ -1,5 +1,9 @@
 # Render Blueprint for EduNova LMS
 # Deploy: Render Dashboard -> New -> Blueprint -> select this repository.
+#
+# Neither service hardcodes the other's URL. Render appends a random suffix when a
+# service name is already taken (e.g. edunova-lms-api-jrcz), so each service is
+# handed the other's real public URL (RENDER_EXTERNAL_URL) on every Blueprint sync.
 services:
   - type: web
     name: edunova-lms-api
@@ -21,8 +25,12 @@ services:
         generateValue: true
       - key: JWT_EXPIRES_IN
         value: 7d
+      # Origin the browser loads the frontend from; the API allows it (CORS).
       - key: CLIENT_ORIGIN
-        value: https://edunova-lms-web.onrender.com
+        fromService:
+          name: edunova-lms-web
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
 
   - type: web
     name: edunova-lms-web
@@ -31,5 +39,17 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
-      - key: VITE_API_URL
-        value: https://edunova-lms-api.onrender.com/api
+      # Baked into the bundle by Vite at build time: the API's public origin.
+      - key: VITE_API_ORIGIN
+        fromService:
+          name: edunova-lms-api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+      # Cypress only runs locally; skip its large binary download on every build.
+      - key: CYPRESS_INSTALL_BINARY
+        value: '0'
+    routes:
+      # React Router owns the URLs, so /login, /courses/:id, ... must serve the app.
+      - type: rewrite
+        source: /*
+        destination: /index.html

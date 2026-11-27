@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { assetUrl } from '../lib/api';
 
 /* ------------------------------------------------------------------ Button */
 const VARIANTS = {
@@ -68,7 +69,7 @@ export const Avatar = ({ name = '', size = 36, className = '', src = '' }) => {
   if (src && !broken) {
     return (
       <img
-        src={src}
+        src={assetUrl(src)}
         alt={name}
         onError={() => setBroken(true)}
         className={`flex-none rounded-full object-cover ring-1 ring-ink-200 ${className}`}

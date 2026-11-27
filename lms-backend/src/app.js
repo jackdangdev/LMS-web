@@ -19,6 +19,9 @@ const enrollmentRoutes = require('./routes/enrollmentRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
+// Render (and most hosts) sit behind one reverse proxy: trust its client IP so the
+// auth rate limiter counts each visitor instead of everyone as the proxy.
+app.set('trust proxy', 1);
 
 /* ----------------------------- middleware -------------------------------- */
 app.use(helmet());
@@ -108,7 +111,14 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 
 /* Optional: serve a static front-end build later (kept for Part C) */
-app.use('/static', express.static(path.join(__dirname, '..', 'public')));
+// Cover images and avatars are embedded by the frontend, which is deployed on a
+// different origin, so allow cross-origin loads of this folder (Helmet's default
+// `same-origin` policy makes the browser block them).
+app.use(
+  '/static',
+  helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }),
+  express.static(path.join(__dirname, '..', 'public'))
+);
 
 /* ------------------------------ fallbacks -------------------------------- */
 app.use(notFound);

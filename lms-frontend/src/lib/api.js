@@ -8,8 +8,20 @@
  *  - a 401 clears the stored session and notifies the app.
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+// Origin of the API without a trailing slash. The Render Blueprint injects it at
+// build time; when unset the app is same-origin (Vite's dev server proxies /api).
+const API_ORIGIN = (import.meta.env.VITE_API_ORIGIN || '').replace(/\/+$/, '');
+const BASE_URL = API_ORIGIN ? `${API_ORIGIN}/api` : import.meta.env.VITE_API_URL || '/api';
 const TOKEN_KEY = 'edunova.token';
+
+/**
+ * Resolve an image path stored by the API (cover images, avatars). Those files live
+ * in the API's /public folder: locally Vite proxies /static to Express, but the
+ * deployed frontend is a separate site, so root-relative /static paths are pointed
+ * at the API origin. Absolute URLs are returned untouched.
+ */
+export const assetUrl = (url) =>
+  typeof url === 'string' && url.startsWith('/static/') ? `${API_ORIGIN}${url}` : url;
 
 export const tokenStore = {
   get: () => localStorage.getItem(TOKEN_KEY),

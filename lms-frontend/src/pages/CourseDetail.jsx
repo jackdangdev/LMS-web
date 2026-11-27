@@ -10,7 +10,7 @@ import {
 } from '../components/ui';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { api } from '../lib/api';
+import { api, assetUrl } from '../lib/api';
 import { CATEGORY_STYLES, LEVEL_STYLES, STATUS_STYLES } from '../lib/constants';
 import { currency, minutesToHours, pluralise } from '../lib/format';
 
@@ -124,7 +124,7 @@ export default function CourseDetail() {
         {course.coverImageUrl && (
           <>
             <img
-              src={course.coverImageUrl}
+              src={assetUrl(course.coverImageUrl)}
               alt=""
               className="absolute inset-0 h-full w-full object-cover"
             />
