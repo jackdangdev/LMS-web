@@ -13,8 +13,10 @@ lms-backend/.env
 dist/
 build/
 lms-frontend/dist/
-video/out/
-video/tmp/
+
+# generated docs / video assets
+docs/
+video/
 
 # test artefacts
 coverage/

@@ -20,7 +20,8 @@ Other root-level scripts:
 | `npm run dev` | Run API (nodemon) + web client (Vite) together via `concurrently` |
 | `npm start` | Same, but the API runs plain `node server.js` (no reload) |
 | `npm run install-all` | `npm install` inside both `lms-backend` and `lms-frontend` |
-| `npm run seed` | Reset and reseed the development database |
+| `npm run seed` | Reset and reseed the database in `MONGO_URI` (destructive) |
+| `npm run migrate` | Copy local MongoDB (`MONGO_URI_LOCAL`, default `127.0.0.1:27017/edunova_lms`) into the Atlas `MONGO_URI`; upserts by `_id`, safe to re-run |
 | `npm test` | Backend test suite (Mocha + Chai + Supertest) |
 | `npm run build` | Production build of the frontend to `lms-frontend/dist` |
 
